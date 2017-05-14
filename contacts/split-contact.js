@@ -27,23 +27,22 @@ fs.readFile('contacts.vcf','utf8', (err,data)=>{
     .map((lines,i) => {
       let res = {};
       res.lines = lines;
-      res.filename = lines
+      res.name = lines
         .map(x=>x.split('FN:'))
         .filter(x=>x.length==2)
-        .map(x=>x[1])
-        [0]
-        +'.vcf'
-      res.filename=i+'.vcf'
+        .map(x=>x[1])[0];
+      //res.filename=i+'.vcf'
       return res;    
     })
   ;
   
 
   fs.mkdirSync('output');
-  contacts.forEach(contact=>{
-    let filename = 'output/' + contact.filename;
+  contacts.forEach((contact,i)=>{
+    let filename = 'output/' + i + '.vcf';
     let content = contact.lines.join('\n');
     //content = content.replace('\r','');
+    console.log('writing', contact.lines.length, contact.name);
     fs.writeFile(filename, content, err=>{
       if(err){
         console.error(err);
