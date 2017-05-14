@@ -1,3 +1,4 @@
+#!/bin/node
 let fs = require('fs');
 
 fs.readFile('contacts.vcf','utf8', (err,data)=>{
@@ -41,7 +42,8 @@ fs.readFile('contacts.vcf','utf8', (err,data)=>{
   fs.mkdirSync('output');
   contacts.forEach(contact=>{
     let filename = 'output/' + contact.filename;
-    let content = contact.lines.join('\r\n');
+    let content = contact.lines.join('\n');
+    //content = content.replace('\r','');
     fs.writeFile(filename, content, err=>{
       if(err){
         console.error(err);
